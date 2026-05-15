@@ -23,63 +23,54 @@
 #endif
 
 
-uint8_t numero1 = 0;
-uint8_t numero2 = 0;
-uint8_t numero3 = 0;
-uint8_t numero4 = 0;
-uint8_t optionCalc = 0;
-uint8_t resultado = 0;
+uint8_t dummy_8bit = 0;
+uint16_t dummy_16bit = 0;
+uint32_t dummy_32bit = 0;
 
-enum {
-	suma = 0,
-	restas = 1,
-	multiplicacion = 2,
-	division,
-	modulo
-};
+uint8_t dummy_16bit_dec = 0;
+uint16_t dummy_16bit_hex = 0;
+uint32_t dummy_16bit_bin= 0;
+uint8_t overflow_demo = 0;
 
-void FuncionCalcular (void);
-
+/* funcion main ......*/
 int main(void)
 {
+	dummy_8bit = 123;
+	dummy_16bit = 4986;
+	dummy_32bit = 12345678;
+
+	dummy_16bit_dec = 32;
+	dummy_16bit_hex = 0x20;
+	dummy_16bit_bin= 0b100000;
+
+	/*cargando el valor xxxxx en la yyyy*/
+
+	dummy_16bit_bin = dummy_16bit_bin <<4 ;//prediction 0b1000000000
+	dummy_16bit_bin = dummy_16bit_bin >> 5; //predition 0b1 :(
+ /* expniendo el caso del overflow*/
+
+	dummy_8bit = 255;
+	dummy_16bit = 255;
+	dummy_32bit = 255;
+
+/* incremento el valor de la variable dummy_8bit en 1 y lo cargo en la* varibale overflow_demo */
+
+	overflow_demo =dummy_8bit +1; //prediction
+	overflow_demo =overflow_demo +1;//predition
+
+	/* que pasaria si puesiera */
+
+	overflow_demo = 735 // prediction debe mostrar 223
+
+	/* loop forever */
+
 	while(1){
 
-		numero1 = 10;
-		numero2 = 15;
-		optionCalc ++;
-		numero1 ++;
-		numero2 --;
-		numero3 = 5;
-		numero4 = 10;
+
 
 	}
 }
 
 
 
-void FuncionCalcular (void){
 
-	switch(optionCalc){
-	case 0:{
-		resultado = numero1 + numero2;
-		break;
-	}
-	case 1:{
-		resultado = numero1 - numero2;
-		break;
-	}
-	case 2:{
-		resultado = numero1 * numero2;
-		break;
-	}
-	case 3:{
-		resultado = numero1 / numero2;
-		break;
-	}
-	case 4:{
-		resultado = numero1 % numero2;
-		break;
-	}
-	}
-
-}
