@@ -23,46 +23,13 @@
 #endif
 
 
-uint8_t dummy_8bit = 0;
-uint16_t dummy_16bit = 0;
-uint32_t dummy_32bit = 0;
+uint8_t my_variable = 0;
 
-uint8_t dummy_16bit_dec = 0;
-uint16_t dummy_16bit_hex = 0;
-uint32_t dummy_16bit_bin= 0;
-uint8_t overflow_demo = 0;
 
 /* funcion main ......*/
 int main(void)
 {
-	dummy_8bit = 123;
-	dummy_16bit = 4986;
-	dummy_32bit = 12345678;
-
-	dummy_16bit_dec = 32;
-	dummy_16bit_hex = 0x20;
-	dummy_16bit_bin= 0b100000;
-
-	/*cargando el valor xxxxx en la yyyy*/
-
-	dummy_16bit_bin = dummy_16bit_bin <<4 ;//prediction 0b1000000000
-	dummy_16bit_bin = dummy_16bit_bin >> 5; //predition 0b1 :(
- /* expniendo el caso del overflow*/
-
-	dummy_8bit = 255;
-	dummy_16bit = 255;
-	dummy_32bit = 255;
-
-/* incremento el valor de la variable dummy_8bit en 1 y lo cargo en la* varibale overflow_demo */
-
-	overflow_demo =dummy_8bit +1; //prediction
-	overflow_demo =overflow_demo +1;//predition
-
-	/* que pasaria si puesiera */
-
-	overflow_demo = 735 // prediction debe mostrar 223
-
-	/* loop forever */
+	my_variable = 42;
 
 	while(1){
 
