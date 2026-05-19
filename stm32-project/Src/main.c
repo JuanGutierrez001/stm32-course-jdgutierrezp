@@ -23,13 +23,18 @@
 #endif
 
 
-uint8_t my_variable = 0;
+uint8_t dec = 0;
+uint8_t hex = 0;
+uint8_t bin = 0;
 
 
 /* funcion main ......*/
 int main(void)
 {
-	my_variable = 42;
+
+	dec = 65;
+	hex = 0x41;
+	bin = 0b01000001;
 
 	while(1){
 
