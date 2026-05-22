@@ -17,69 +17,26 @@
  */
 
 #include <stdint.h>
+#include <stm32f4xx.h>
+
 
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
 
-uint8_t numero1 = 0;
-uint8_t numero2 = 0;
-uint8_t numero3 = 0;
-uint8_t numero4 = 0;
-uint8_t optionCalc = 0;
-uint8_t resultado = 0;
-
-enum {
-	suma = 0,
-	restas = 1,
-	multiplicacion = 2,
-	division,
-	modulo
-};
-
-void FuncionCalcular (void);
-
 int main(void)
 {
-	while(1){
-
-		numero1 = 10;
-		numero2 = 15;
-		optionCalc ++;
-		numero1 ++;
-		numero2 --;
-		numero3 = 5;
-		numero4 = 10;
-
-	}
-}
+	//RCC->AHB1 |= (1<<0):
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
 
 
 
-void FuncionCalcular (void){
+	GPIOA->MODER |= GPIO_MODER_MODE5_Pos;
 
-	switch(optionCalc){
-	case 0:{
-		resultado = numero1 + numero2;
-		break;
-	}
-	case 1:{
-		resultado = numero1 - numero2;
-		break;
-	}
-	case 2:{
-		resultado = numero1 * numero2;
-		break;
-	}
-	case 3:{
-		resultado = numero1 / numero2;
-		break;
-	}
-	case 4:{
-		resultado = numero1 % numero2;
-		break;
-	}
+
+
 	}
 
-}
+
+
