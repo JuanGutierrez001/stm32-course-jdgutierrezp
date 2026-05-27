@@ -24,40 +24,21 @@
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
-uint8_t my_variable = 0;
-uint8_t dec = 0;
-uint8_t hex = 0;
-uint8_t bin = 0;
-uint8_t a = 0;
-uint16_t b = 0;
-uint32_t c = 0;
-uint8_t d = 0;
-uint8_t e= 0;
-int8_t f=0;
-int8_t g = 0;
+uint8_t x = 0;
+uint8_t y = 0;
+
 
 
 
 int main(void)
 
 {
-		my_variable = 42;
-		dec=65;
-		hex = 0x41;
-		bin = 0b01000001;
-		a =250;//al parecer este valor da -1 es por el int, lo que dice es que hay -1 antes de que secomplete el rango//
-		b=255;
-		c=255;
-		d=255;
-		e = 200;
-		f = 200;
-		g = -1;// al parecer la condicion del signo es la ubicacion relativa del los datos//
 
+		x = 127;
+		x = x + 1;
 
-
-
-
-
+		y = 255;
+		y = y + 1;
 
 
 		while(1){}
