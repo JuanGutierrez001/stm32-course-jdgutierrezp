@@ -25,12 +25,31 @@
 #endif
 
 uint8_t my_variable = 0;
+uint8_t dec = 0;
+uint8_t hex = 0;
+uint8_t bin = 0;
+uint8_t a = 0;
+uint16_t b = 0;
+uint32_t c = 0;
+uint8_t d = 0;
 
 
-int main(void)
+main()
 
 {
 		my_variable = 42;
+		dec=65;
+		hex = 0x41;
+		bin = 0b01000001;
+		a =250;//al parecer este valor da -1 es por el int, lo que dice es que hay -1 antes de que secomplete el rango//
+		b=255;
+		c=255;
+		d=256;
+
+
+
+
+
 
 		while(1){}
 
