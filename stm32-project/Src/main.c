@@ -24,9 +24,15 @@
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
+uint8_t my_variable = 0;
+
 
 int main(void)
+
 {
+		my_variable = 42;
+
+		while(1){}
 
 
 	}
