@@ -27,13 +27,6 @@
 
 int main(void)
 {
-	//RCC->AHB1 |= (1<<0):
-	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
-
-
-
-	GPIOA->MODER |= GPIO_MODER_MODE5_Pos;
-
 
 
 	}
