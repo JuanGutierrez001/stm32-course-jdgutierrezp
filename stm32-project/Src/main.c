@@ -30,6 +30,11 @@ uint8_t z=UINT8_MAX;
 uint16_t W=UINT16_MAX;
 
 
+/*mayoritaminete se debe usar el uint...dado que casi siempres se va acontar desde 0 hasta 255,
+ * ya si por uso se necesita contar desde -128 hasta 127 ahi si se utilizaria el int...
+ * el proceso par hacer -128 el contado hace que la cifra mas signficativ se convierta en 1 para negativo
+ * y 0 para positivo  entonces los otros 7 espacio quedan para dar logar a 128 o 127*/
+
 
 
 
