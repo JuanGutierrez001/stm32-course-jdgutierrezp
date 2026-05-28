@@ -24,8 +24,12 @@
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
-uint8_t x = 0;
-uint8_t y = 0;
+int8_t x=INT8_MAX;/*la constante int alparecer va desde -128 hasta 127, y la uint desde 0 a 255*/
+int8_t y=INT8_MIN;
+uint8_t z=UINT8_MAX;
+uint16_t W=UINT16_MAX;
+
+
 
 
 
@@ -33,12 +37,12 @@ uint8_t y = 0;
 int main(void)
 
 {
+		x= x;
+		y=y+127;
+		z=z;
+		W=W;
 
-		x = 127;
-		x = x + 1;
 
-		y = 255;
-		y = y + 1;
 
 
 		while(1){}
