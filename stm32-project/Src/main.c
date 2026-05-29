@@ -17,31 +17,55 @@
  */
 
 #include <stdint.h>
+#include <stm32f4xx.h>
+
 
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
 
-uint8_t dec = 0;
-uint8_t hex = 0;
-uint8_t bin = 0;
+
+uint8_t a = 0;
+uint8_t b = 0;
+uint8_t c = 0;
+
+uint8_t r1 = 0;
+uint8_t r2 = 0;
+uint8_t r3 = 0;
+uint8_t r4 = 0;
+uint8_t r5 = 0;
+
+
+
+
 
 
 /* funcion main ......*/
 int main(void)
+
 {
 
-	dec = 65;
-	hex = 0x41;
-	bin = 0b01000001;
+	 a = 5;
+	 b = 0;
+	 c = 255;
 
-	while(1){
+	 r1 = !a; /* tomando el !, hace que se comporte como una compuerta logica
+	 entonces independiente del valor tomado si es diferente de 0 lo toma como
+	 un 1 y el ! es la negacion logica, entonces a=5 lo toma como un 1 verdadero, entones
+	 el !a seria la neacion de verdadero , entonces el resultado seri =O*/
+	 r2 = !b;
+	 r3 = !c;
+	 r4 = ~c; /* el + invierte el valor de los bits si se tenia 00000101 lo convierte en 11111010,
+	 este es un inversor de bits  */
+	 r5 = ~a;
+
+
+		while(1){}
 
 
 
 	}
-}
 
 
 
