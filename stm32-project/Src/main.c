@@ -25,7 +25,7 @@
 #endif
 
 
-uint8_t x=0;
+uint8_t result;
 
 
 
@@ -34,15 +34,10 @@ uint8_t x=0;
 int main(void)
 
 {
-		x= 0x01;
-		x= 0x02;
-		x= 0x04;
-		x= 0x08;
-		x= 0x10;
-		x= 0x20;
-		x= 0x40;
-		x= 0x80;
-
+	result = 0x0F + 0x01;/* =16*/
+	result = 0xFF + 0x01;/* =0*/
+	result = 0xA0 + 0x5F;/* =245*/
+	result = 0xA0 + 0x60;/*=246 */
 
 
 
