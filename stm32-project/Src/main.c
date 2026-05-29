@@ -27,18 +27,6 @@
 
 
 
-uint8_t a = 0;
-uint8_t b = 0;
-uint8_t c = 0;
-
-uint8_t r1 = 0;
-uint8_t r2 = 0;
-uint8_t r3 = 0;
-uint8_t r4 = 0;
-uint8_t r5 = 0;
-
-
-
 
 
 
@@ -51,22 +39,6 @@ int main(void)
 
 
 	while(1){
-
-
-
-	 a = 5;
-	 b = 0;
-	 c = 255;
-
-	 r1 = !a; /* tomando el !, hace que se comporte como una compuerta logica
-	 entonces independiente del valor tomado si es diferente de 0 lo toma como
-	 un 1 y el ! es la negacion logica, entonces a=5 lo toma como un 1 verdadero, entones
-	 el !a seria la neacion de verdadero , entonces el resultado seri =O*/
-	 r2 = !b;
-	 r3 = !c;
-	 r4 = ~c; /* el + invierte el valor de los bits si se tenia 00000101 lo convierte en 11111010,
-	 este es un inversor de bits  */
-	 r5 = ~a;
 
 
 
