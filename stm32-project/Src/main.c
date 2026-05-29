@@ -26,6 +26,7 @@
 
 
 
+
 uint8_t a = 0;
 uint8_t b = 0;
 uint8_t c = 0;
@@ -46,6 +47,13 @@ int main(void)
 
 {
 
+
+
+
+	while(1){
+
+
+
 	 a = 5;
 	 b = 0;
 	 c = 255;
@@ -61,12 +69,12 @@ int main(void)
 	 r5 = ~a;
 
 
-		while(1){}
+
 
 
 
 	}
 
 
-
+}
 
