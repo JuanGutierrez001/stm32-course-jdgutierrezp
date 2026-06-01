@@ -15,6 +15,9 @@
  *
  ******************************************************************************
  */
+/*porgramacionn ejercicios seman 1 **/
+
+
 
 #include <stdint.h>
 #include <stm32f4xx.h>
@@ -24,8 +27,11 @@
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
-
-
+uint8_t a=0;
+uint8_t b=0;
+uint8_t div_result = 0;
+uint8_t mod_result = 0;
+uint8_t mul_result =0;
 
 
 
@@ -34,6 +40,15 @@
 int main(void)
 
 {
+	a= 17;
+	b = 5;
+	div_result = a/b; /*descarta los decimales*/
+	mod_result = a%b; /*modulo*/
+	mul_result = a*b;
+
+	div_result=div_result*b+mod_result;	/*con esto se halla el modulo*/
+
+
 
 
 
