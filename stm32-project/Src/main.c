@@ -35,10 +35,11 @@
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
-uint8_t x=0;
-uint8_t y=0;
-uint8_t sum =0;
-
+uint8_t val = 3;
+uint8_t left1  = 0;
+uint8_t left2  = 0;
+uint8_t left3  = 0;
+uint8_t right1 = 0;
 
 
 
@@ -46,10 +47,12 @@ uint8_t sum =0;
 int main(void)
 
 {
-	 x   = 200;
-	 y   = 100;
-	 sum = x + y; /* cuando se desbora vuelve a sumar*/
 
+	val = val;
+	left1 = val << 1;/*dezplaza el 0 hacia la izquierda---- ver en binario*/
+	left2 = val << 2;/*dezplaza el 0 dos "casillas" hacia la izquierda---- ver en binario*/
+	left3 = val << 3;
+	right1 = val >> 1;/*dezplaza el 0 hacia la derecha---- ver en binario*/
 
 
 
