@@ -38,7 +38,7 @@
 uint8_t val = 3;
 uint8_t left1  = 0;
 uint8_t left2  = 0;
-uint8_t left3  = 0;
+uint8_t left3  = 0b10000000;
 uint8_t right1 = 0;
 
 
@@ -51,7 +51,7 @@ int main(void)
 	val = val;
 	left1 = val << 1;/*dezplaza el 0 hacia la izquierda---- ver en binario*/
 	left2 = val << 2;/*dezplaza el 0 dos "casillas" hacia la izquierda---- ver en binario*/
-	left3 = val << 3;
+	left3 = left3<< 1; /*al oner 7 sigue mostranso 1, pero al poner 8 se reinicia el conteo a 0*/
 	right1 = val >> 1;/*dezplaza el 0 hacia la derecha---- ver en binario*/
 
 
