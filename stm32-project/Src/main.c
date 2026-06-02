@@ -15,7 +15,15 @@
  *
  ******************************************************************************
  */
-/*porgramacionn ejercicios seman 1 **/
+/*workspace :
+ * User:Juan Gutierrez
+ * User_email:jdgutierrezp@unal.edu.co
+ */
+
+/*programacion ejercicios seman 1 **/
+
+/* la divición descarta decimales*/
+/*el modulo de dos variables se puede hacer desde %*/
 
 
 
@@ -27,11 +35,9 @@
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
-uint8_t a=0;
-uint8_t b=0;
-uint8_t div_result = 0;
-uint8_t mod_result = 0;
-uint8_t mul_result =0;
+uint8_t x=0;
+uint8_t y=0;
+uint8_t sum =0;
 
 
 
@@ -40,15 +46,9 @@ uint8_t mul_result =0;
 int main(void)
 
 {
-	a= 17;
-	b = 5;
-	div_result = a/b; /*descarta los decimales*/
-	mod_result = a%b; /*modulo*/
-	mul_result = a*b;
-
-	div_result=div_result*b+mod_result;	/*con esto se halla el modulo*/
-
-
+	 x   = 200;
+	 y   = 100;
+	 sum = x + y; /* cuando se desbora vuelve a sumar*/
 
 
 
