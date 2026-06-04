@@ -16,8 +16,10 @@
  ******************************************************************************
  */
 /*workspace :
+ * ****************************************************************************
  * User:Juan Gutierrez
  * User_email:jdgutierrezp@unal.edu.co
+ * ****************************************************************************
  */
 
 /*programacion ejercicios seman 1 **/
@@ -26,45 +28,62 @@
 /*el modulo de dos variables se puede hacer desde %*/
 
 
+//IVESTIGAR EL PORQUE DEL USO DE LIBRERIAS GPIO Y NO DEL COMANDO 0B>>><<<<......
+
 
 #include <stdint.h>
 #include <stm32f4xx.h>
+#include <stdio.h>
+
 
 
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
-uint8_t val = 3;
-uint8_t left1  = 0;
-uint8_t left2  = 0;
-uint8_t left3  = 0b10000000;
-uint8_t right1 = 0;
+
+/*varible definition*/
+
+uint8_t a=0;
+uint8_t b=0;
+uint8_t c=0;
+uint8_t result=0;
+
+
+
+/*functions head*/
+
+
 
 
 
 /* funcion main ......*/
-int main(void)
+int main(void){
 
-{
-
-	val = val;
-	left1 = val << 1;/*dezplaza el 0 hacia la izquierda---- ver en binario*/
-	left2 = val << 2;/*dezplaza el 0 dos "casillas" hacia la izquierda---- ver en binario*/
-	left3 = left3<< 1; /*al oner 7 sigue mostranso 1, pero al poner 8 se reinicia el conteo a 0*/
-	right1 = val >> 1;/*dezplaza el 0 hacia la derecha---- ver en binario*/
-
+	a=1;
+	b=3;
+	c=0;
 
 
 	while(1){
+		if (a==1){
+		result= a+b;
 
-
+		}
+		if (a==0){
+		result=b;
+		}
+		else {
+			result=result;
+		}
 
 
 
 
 	}
+	return 0;
 
 
 }
+
 
