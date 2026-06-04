@@ -44,10 +44,9 @@
 
 /*varible definition*/
 
-uint8_t a=0;
-uint8_t b=0;
-uint8_t c=0;
-uint8_t result=0;
+uint8_t counter=0;
+uint8_t c = 0;
+
 
 
 
@@ -60,30 +59,9 @@ uint8_t result=0;
 /* funcion main ......*/
 int main(void){
 
-	a=1;
-	b=3;
-	c=0;
-
-
-	while(1){
-		if (a==1){
-		result= a+b;
-
-		}
-		if (a==0){
-		result=b;
-		}
-		else {
-			result=result;
-		}
-
-
-
+	for(counter=0;counter!=5;counter=counter+1){//se debe poneer counter=counter ya que si se pone counter = 10-1 solo queda el 9 y no sigue disminuyendo
+		c=counter;
 
 	}
-	return 0;
-
 
 }
-
-
