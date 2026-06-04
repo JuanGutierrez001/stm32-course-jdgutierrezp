@@ -45,7 +45,7 @@
 /*varible definition*/
 
 uint8_t counter=0;
-uint8_t c = 0;
+uint16_t sum = 0;
 
 
 
@@ -59,8 +59,13 @@ uint8_t c = 0;
 /* funcion main ......*/
 int main(void){
 
-	for(counter=0;counter!=5;counter=counter+1){//se debe poneer counter=counter ya que si se pone counter = 10-1 solo queda el 9 y no sigue disminuyendo
-		c=counter;
+	while(1){
+		if(counter<100){//el uso de corchetes despues de la consición para poder indicar que se va a comparar y despues que se va ahacer
+			counter=counter+1;
+			sum =sum+counter;
+
+		}
+
 
 	}
 
