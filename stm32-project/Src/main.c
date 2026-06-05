@@ -44,11 +44,8 @@
 
 /*varible definition*/
 
-uint8_t a=0;
-uint8_t b = 0;
-uint8_t c=0;
-uint8_t vr1=0;
-uint8_t vr2=0;
+uint8_t imput=5;
+uint8_t output = 0;
 
 
 
@@ -60,16 +57,27 @@ uint8_t vr2=0;
 /* funcion main ......*/
 int main(void){
 
-	while(0){//al ser falso salt al do-hile
-		vr1=42;
+
+	switch(2){//ahorra el uso del if-else, se va directto al caso de comparacion
+
+	case 1:
+		output=imput;
+
+		break;
+	case 2:
+		output=imput;
+		break;
+	case 3:
+		output=imput;
+		break;
+	case 4:
+		output=imput;
+		break;
+	default:
+		output=8;
+		break;
+
 	}
-
-	do{
-		vr2=42;//a pesar de ser falso el argumento, este se ejecuta por lo menos una vez
-
-	}
-	while(0);
-
 
 
 	}
