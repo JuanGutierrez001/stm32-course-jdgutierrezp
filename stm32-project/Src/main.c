@@ -44,9 +44,11 @@
 
 /*varible definition*/
 
-uint8_t counter=0;
-uint16_t sum = 0;
-
+uint8_t a=0;
+uint8_t b = 0;
+uint8_t c=0;
+uint8_t vr1=0;
+uint8_t vr2=0;
 
 
 
@@ -55,18 +57,24 @@ uint16_t sum = 0;
 
 
 
-
 /* funcion main ......*/
 int main(void){
 
-	while(1){
-		if(counter<100){//el uso de corchetes despues de la consición para poder indicar que se va a comparar y despues que se va ahacer
-			counter=counter+1;
-			sum =sum+counter;
+	while(0){//al ser falso salt al do-hile
+		vr1=42;
+	}
 
-		}
+	do{
+		vr2=42;//a pesar de ser falso el argumento, este se ejecuta por lo menos una vez
+
+	}
+	while(0);
+
 
 
 	}
 
-}
+
+
+
+
