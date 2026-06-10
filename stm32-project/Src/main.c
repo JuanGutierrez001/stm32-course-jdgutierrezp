@@ -54,10 +54,11 @@ uint8_t result = 0;
 
 /* funcion main ......*/
 int main(void){
-	value=0b10110101;
-	mask = 0b11110000;
-	result = value & mask; /* el AND deja donde las entradas tiene 1 y lo
-	demas lo manda a 0*/
+	value=0b10100000;
+	mask = 0b00000101;
+	result = value | mask; /* el OR , como en la compuerta logica
+	cuando en las entradas los valores son diferentes pone un 1
+	pero cunado las entradas son iguales pone a 0*/
 
 
 
