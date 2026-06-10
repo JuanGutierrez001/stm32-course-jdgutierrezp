@@ -43,46 +43,31 @@
 
 
 /*varible definition*/
-
-uint8_t imput=5;
-uint8_t output = 0;
+uint8_t value=0;
+uint8_t mask = 0;
+uint8_t result = 0;
 
 
 
 /*functions head*/
 
 
-
-
 /* funcion main ......*/
 int main(void){
+	value=0b10110101;
+	mask = 0b11110000;
+	result = value & mask; /* el AND deja donde las entradas tiene 1 y lo
+	demas lo manda a 0*/
 
 
-	switch(2){//ahorra el uso del if-else, se va directto al caso de comparacion
 
-	case 1:
-		output=imput;
 
-		break;
-	case 2:
-		output=imput;
-		break;
-	case 3:
-		output=imput;
-		break;
-	case 4:
-		output=imput;
-		break;
-	default:
-		output=8;
-		break;
+	while(1){
 
 	}
-
-
-	}
-
+	return(0);
 
 
 
+}
 
