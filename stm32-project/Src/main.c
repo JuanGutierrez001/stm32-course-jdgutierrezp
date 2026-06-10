@@ -43,9 +43,15 @@
 
 
 /*varible definition*/
-uint8_t value=0;
-uint8_t mask = 0;
-uint8_t result = 0;
+uint8_t a=0;
+uint8_t result1 = 0;
+uint8_t b=0;
+uint8_t result2 = 0;
+uint8_t value = 0b11111111;
+uint8_t result =0;
+
+
+
 
 
 
@@ -54,11 +60,17 @@ uint8_t result = 0;
 
 /* funcion main ......*/
 int main(void){
-	value=0b10100000;
-	mask = 0b00000101;
-	result = value | mask; /* el OR , como en la compuerta logica
-	cuando en las entradas los valores son diferentes pone un 1
-	pero cunado las entradas son iguales pone a 0*/
+	a=0b00001111;
+	result1 = ~a;
+	b=0b10100101;
+	result2 = ~b;
+
+	value &= ~(result1); /*el &= es el AND y el "~(valor a cambiar)", esto me permite crear una
+	mascara para poder cambiar los bits especificos*/
+
+
+
+
 
 
 
