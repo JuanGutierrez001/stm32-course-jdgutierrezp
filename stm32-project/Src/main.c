@@ -43,16 +43,8 @@
 
 
 /*varible definition*/
-uint8_t mask =0;
-
-uint8_t result1 = 0;
-
-uint8_t result2 = 0;
-uint8_t value = 0;
-
-
-
-
+uint8_t simulate_register =0x00;
+uint8_t mask=0;
 
 
 
@@ -62,10 +54,13 @@ uint8_t value = 0;
 /* funcion main ......*/
 int main(void){
 
-	value = 0b10110011;
-	mask = 0b00001111;
-	result1 = value ^mask;
-	result2 = result1 ^mask; /* XOR aplicado al amsma mascara siempre regresa la valor original*/
+	simulate_register |= 0x0C; /*el uso del operador += hace que se compare contra el mismo
+	y se actualiza su valor sin necesidad de volver a declara la variable
+	*/
+	simulate_register &= ~(0b00000100);
+	simulate_register ^= 0x08;
+	simulate_register ^=0x08;
+
 
 
 
