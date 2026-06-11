@@ -52,6 +52,10 @@
 int main(void){
 
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN; /* recordar que |= es como A= A|B*/
+	GPIOA->MODER |= (1<<10); /* SEGUN EL MANUAL DE REFERENCIA EL PIN 5 ESTA EN LA 10-11*/
+
+	GPIOA->ODR   |= (1<<5);
+
 
 	while(1){
 
