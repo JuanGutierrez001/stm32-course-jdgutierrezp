@@ -43,9 +43,6 @@
 
 
 /*varible definition*/
-uint8_t simulate_register =0x00;
-uint8_t mask=0;
-
 
 
 /*functions head*/
@@ -54,18 +51,7 @@ uint8_t mask=0;
 /* funcion main ......*/
 int main(void){
 
-	simulate_register |= 0x0C; /*el uso del operador += hace que se compare contra el mismo
-	y se actualiza su valor sin necesidad de volver a declara la variable
-	*/
-	simulate_register &= ~(0b00000100);
-	simulate_register ^= 0x08;
-	simulate_register ^=0x08;
-
-
-
-
-
-
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN; /* recordar que |= es como A= A|B*/
 
 	while(1){
 
