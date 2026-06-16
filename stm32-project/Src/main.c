@@ -30,8 +30,8 @@
 	//funciones
 	//while
 		//blicky condicional
-		//EXTI1 condicional (exti de decricimiento)
-		//EXTI0 conditional (exti de crecicminto)
+		//EXTI1 condicional (exti de aumento)
+		//EXTI0 conditional (exti de disminucion)
 //functions
 
 //includes
@@ -54,11 +54,11 @@ volatile uint8_t digito_actual = 0;         // LOS CUATRO DIGITOS SEGUN DATASHEE
 //cabecera de funciones
 void pines(void);		//FUNCION QUE CONFIGURA DE LOS PINES QUE SE VAN A UTILIZAR
 void blinky(void);		//FUNCION PARA EL FUNCIONAMIENTO DEL BLINKY
-void exti_1(void);		//FUNCION PARA FUNCIONAMINTO DE LA INTRUPCION 1
-void exti_0(void);		//FUNCION PARA LA INTERUPCION 0
+void exti_1(void);		//FUNCION PARA FUNCIONAMINTO DE LA INTRUPCION 1 --RELACIONADA CON AUMENTO
+void exti_0(void);		//FUNCION PARA LA INTERUPCION 0--RELACIONADA CON DISMINUCION
 void separar_digitos(void);
-void configurar_timer2_display(void);
-void decodificar_7seg(uint8_t numero);
+void timer2_display(void);
+void pintar_numero_7seg(uint8_t numero);
 
 //funcion main
 int main(void){
@@ -67,7 +67,7 @@ int main(void){
 	exti_1();
 	exti_0();
 	separar_digitos();
-	configurar_timer2_display();
+	timer2_display();
 
 	while(1){
 		if(flag){		//CONDICIONAL PARA EL FUNCIONAMINTO DEL BLINKY
@@ -75,7 +75,7 @@ int main(void){
 			GPIOH->ODR ^= GPIO_ODR_OD1;
 
 		}
-		if(increment_counter == 1){			//condicional del relaciones con el EXTI1
+		if(increment_counter == 1){			//CONDICIONAL RELACIONADA CON EL AUMENTO-EXTI1 (POR SER DEL PIN PB1)
 		            if(counter_exti < 9999) {
 		                counter_exti++;
 		            } else {
@@ -85,7 +85,7 @@ int main(void){
 		            separar_digitos(); // ACTUALIZA EL ARREGLO HECHO EN EL CONDICIONAL
 		        }
 
-		        if(decrement_counter == 1){ 	//condicional del relaciones con el EXTI0
+		        if(decrement_counter == 1){ 	//CONDICIONAL RELACIONADA CON EL AUMENTO-EXTI0 (POR SER DEL PIN PB0
 		            if(counter_exti > 0) {
 		                counter_exti--;
 		            } else {
@@ -113,9 +113,8 @@ void pines(void){
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
 
 
-	//configuracion puertos generales- SALIDA
-	//PB
-
+	//CONFIGURACION PUERTOS GENERALES- SALIDA
+	//PB--7,8,9
 	GPIOB->MODER &= ~(GPIO_MODER_MODE7 | GPIO_MODER_MODE8 | GPIO_MODER_MODE9);//LIPIEZA DE LOS PUERTOS EN REGISTRO MODER
 	GPIOB->MODER |= (GPIO_MODER_MODE7_0 | GPIO_MODER_MODE8_0 | GPIO_MODER_MODE9_0);// ACTIVACIOND DE PUERTOS EN REGISTRO MODDER DE BER 10
 
@@ -130,9 +129,8 @@ void pines(void){
 	GPIOB->ODR |= (GPIO_ODR_ODR_7 | GPIO_ODR_ODR_8 | GPIO_ODR_ODR_9);// ACTIVACION DEL PUERTO OD SE DEBE POR EN 1 PARA LA SALIDA - SE COMINEZA PAGADO
 
 
-	//configuracion puertos generales- SALIDA
-	//PC
-
+	//CONFIGURACIONES DE PUERTOS GENERALES- SALIDA
+	//PC--6,8,9,10,11,12,13
 	GPIOC->MODER &= ~(GPIO_MODER_MODE6 | GPIO_MODER_MODE8 | GPIO_MODER_MODE9 | GPIO_MODER_MODE10| GPIO_MODER_MODE11 | GPIO_MODER_MODE12 | GPIO_MODER_MODE13);//LIPIEZA DE LOS PUERTOS EN REGISTRO MODER
 	GPIOC->MODER |= (GPIO_MODER_MODE6_0 | GPIO_MODER_MODE8_0 | GPIO_MODER_MODE9_0 | GPIO_MODER_MODE10_0 | GPIO_MODER_MODE11_0 | GPIO_MODER_MODE12_0 | GPIO_MODER_MODE13_0);// ACTIVACIOND DE PUERTOS EN REGISTRO MODDER DE BER 10
 
@@ -146,9 +144,8 @@ void pines(void){
 	GPIOC->ODR &= ~(GPIO_ODR_ODR_6 | GPIO_ODR_ODR_8  | GPIO_ODR_ODR_9 | GPIO_ODR_ODR_10  | GPIO_ODR_ODR_11| GPIO_ODR_ODR_12  | GPIO_ODR_ODR_13); //LIMPESZA DEL PUERTO ODR
 	GPIOC->ODR |= (GPIO_ODR_ODR_6 | GPIO_ODR_ODR_8  | GPIO_ODR_ODR_9 | GPIO_ODR_ODR_10  | GPIO_ODR_ODR_11| GPIO_ODR_ODR_12  | GPIO_ODR_ODR_13);// ACTIVACION DEL PUERTO OD SE DEBE POR EN 1 PARA LA SALIDA - SE COMINEZA PAGADO
 
-	//configuracion puertos generales- SALIDA
-	//PD
-
+	//CONFIGURACION DE PUERETOS GENERALES- SALIDA
+	//PD--2
 	GPIOD->MODER &= ~(GPIO_MODER_MODE2);//LIPIEZA DE LOS PUERTOS EN REGISTRO MODER
 	GPIOD->MODER |= (GPIO_MODER_MODE2_0);// ACTIVACIOND DE PUERTOS EN REGISTRO MODDER DE BER 10
 
@@ -165,53 +162,52 @@ void pines(void){
 
 	//CONFIGURACION PINES ENTRADA SIMPLE
 	//PIN B (PB0)
-
-	GPIOB->MODER &= ~(GPIO_MODER_MODE0);
+	GPIOB->MODER &= ~(GPIO_MODER_MODE0);//MODO ANALOG SEGUN REFERECE MANUAL--0X3 << OU (0X3=11) |11|
 	GPIOB->PUPDR &= ~(GPIO_PUPDR_PUPD0);// MODO NO PULL-UP NO PULL-DOWN
 
 
 	//PIN C (PC1)
-	GPIOC->MODER &= ~(GPIO_MODER_MODE1); // Modo entrada
+	GPIOC->MODER &= ~(GPIO_MODER_MODE1); // MODO ANALOG SEGUN REFERECE MANUA--0X3 << 2U (0X3=11) |11|00|
 	GPIOC->PUPDR &= ~(GPIO_PUPDR_PUPD1); // MODO NO PULL-UP NO PULL-DOWN
 
 }
 
 void blinky(void){
-	// 1. CONFIGURACIÓN DEL PIN PH1 (Se mantiene igual)
+	// 1. CONFIGURACIÓN DEL PIN PH1
 	RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOHEN);//LIMPIEZA DEL REGISTRO
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOHEN;	//ACTIVACION DE SEÑAL DE RELOJ
 
-	GPIOH->MODER &= ~(GPIO_MODER_MODE1);
-	GPIOH->MODER |= (GPIO_MODER_MODE1_0);
+	GPIOH->MODER &= ~(GPIO_MODER_MODE1);//LIMPIEZA DE REGISTRO |00|00|
+	GPIOH->MODER |= (GPIO_MODER_MODE1_0);//ACTIVACION DE PUERTO MODO GENERAL |01|00|
 
-	GPIOH->OTYPER &= ~(GPIO_OTYPER_OT1);
+	GPIOH->OTYPER &= ~(GPIO_OTYPER_OT1); //LIMPIEZA DEL REGISTRO--->  Output push-pull
 
-	GPIOH->OSPEEDR &= ~(GPIO_OSPEEDER_OSPEEDR1);
-	GPIOH->OSPEEDR |= (GPIO_OSPEEDER_OSPEEDR1_1);
+	GPIOH->OSPEEDR &= ~(GPIO_OSPEEDER_OSPEEDR1);//LIMPIEZA DEL REGISTRO OSPPEEDR
+	GPIOH->OSPEEDR |= (GPIO_OSPEEDER_OSPEEDR1_1);// CONFIGURACIO--> SE PONE UN 11 EN PH1 |11|00|
 
-	GPIOH->PUPDR &= ~(GPIO_PUPDR_PUPD1);
+	GPIOH->PUPDR &= ~(GPIO_PUPDR_PUPD1); // LIMPEZA DE PUERTO  PUPDR - SE DEJA EN 00
 
-	GPIOH->ODR &= ~(GPIO_ODR_OD1);
-	GPIOH->ODR |= (GPIO_ODR_OD1);
+	GPIOH->ODR &= ~(GPIO_ODR_OD1);//LIMPESZA DEL PUERTO ODR
+	GPIOH->ODR |= (GPIO_ODR_OD1);// ACTIVACION DEL PUERTO OD SE DEBE POR EN 1 PARA LA SALIDA - SE COMINEZA PAGADO
 
-	// 2. CONFIGURACIÓN DEL TIMER 3 (Para el parpadeo)
-	RCC->APB1ENR &= ~(RCC_APB1ENR_TIM3EN);
-	RCC->APB1ENR |= RCC_APB1ENR_TIM3EN; // Activar reloj del TIM3
+	// 2. CONFIGURACIÓN DEL TIMER 3 (PARPADEO)
+	RCC->APB1ENR &= ~(RCC_APB1ENR_TIM3EN);//LIMPEZA DEL REGISTRO
+	RCC->APB1ENR |= RCC_APB1ENR_TIM3EN; // ACTIVACION DEL SEÑAL DE RELOJ DEL TIM3
 
-	TIM3->PSC = 16000 - 1; // Preescaler para que cuente cada 1 ms
-	TIM3->ARR = 250 - 1;   // Interrupción cada 500 ms (Medio segundo)
+	TIM3->PSC = 16000 - 1; // PRESCALES PARA QUE CUENTE CADA 1 ms
+	TIM3->ARR = 250 - 1;   // INTERRUPCIONES CADA 250 ms
 
-	TIM3->CNT = 0; // Iniciar contador en 0
+	TIM3->CNT = 0; // INCIAR CONTADOR EN 0
 
-	TIM3->DIER &= ~(TIM_DIER_UIE);
-	TIM3->DIER |= TIM_DIER_UIE; // Activar interrupción del Timer
+	TIM3->DIER &= ~(TIM_DIER_UIE);//LIMPIEZA DEL REG
+	TIM3->DIER |= TIM_DIER_UIE; // ACTIVACION DE INTERRUPCION DEL TIMMER
 
-	__NVIC_EnableIRQ(TIM3_IRQn); // Matricular el TIM3 en el NVIC
+	__NVIC_EnableIRQ(TIM3_IRQn); // MATRICULACION DEL TIMMER EN EL NVIC
 
-	TIM3->CR1 &= ~(TIM_CR1_DIR); // Contar hacia arriba
-	TIM3->CR1 &= ~(TIM_CR1_ARPE);
-	TIM3->CR1 |= TIM_CR1_ARPE;
-	TIM3->CR1 |= TIM_CR1_CEN; // Arrancar el Timer 3
+	TIM3->CR1 &= ~(TIM_CR1_DIR); // CONTEO ASCENDENTE
+	TIM3->CR1 &= ~(TIM_CR1_ARPE);//LIMPIEZA POSICION ARPE
+	TIM3->CR1 |= TIM_CR1_ARPE;//ACTIVAIONN DE LA PRECARGA
+	TIM3->CR1 |= TIM_CR1_CEN; // ACTIVACION DEL TIMMER PARA QUE LA SEÑAL DE RELOJ SE EMPIEZE A PROPAGAR
 }
 //ISR PARA EL BLINKY
 void TIM3_IRQHandler(void){
@@ -235,7 +231,6 @@ void exti_0(void){
 	EXTI->PR |= EXTI_PR_PR0;//LIMPIEZA DE LA BANDERA RELACIONADA CON EL EXTI-SEGUN REFERENCE MANUAL SE LIMPIA CON 1
 
 	EXTI->IMR |= EXTI_IMR_IM0;//ACTIVACION DE LA INTERRUPCION (IMR)- SE ESCRIBE 1 EN EL O-->PB0
-
 
 	//BUSCAR LAS ISR --> STARTUP-->VECTORES COMPLETOS
 	//
@@ -267,7 +262,7 @@ void exti_1(void){
 
 	EXTI->PR |= EXTI_PR_PR1;//LIMPIEZA DE LA BANDERA RELACIONADA CON EL EXTI-SEGUN REFERENCE MANUAL SE LIMPIA CON 1
 
-	EXTI->IMR |= EXTI_IMR_IM1;//ACTIVACION DE LA INTERRUPCION (IMR)- SE ESCRIBE 1 EN EL O-->PB0
+	EXTI->IMR |= EXTI_IMR_IM1;//ACTIVACION DE LA INTERRUPCION (IMR)- SE ESCRIBE 1 EN EL O-->PC1
 
 
 	//BUSCAR LAS ISR --> STARTUP-->VECTORES COMPLETOS
@@ -292,15 +287,15 @@ void separar_digitos(void) {
     digitos[3] = counter_exti % 10;            // Unidades (D4)
 }
 
-void decodificar_7seg(uint8_t numero) {
-    // 1. APAGAR TODOS LOS SEGMENTOS PRIMERO (Poner en 1)
+void pintar_numero_7seg(uint8_t numero) {
+    // 1. APAGAR TODOS LOS SEGMENTOS PRIMERO (Poner en 1) |11|
     GPIOC->ODR |= (GPIO_ODR_OD9 | GPIO_ODR_OD11 | GPIO_ODR_OD12 | GPIO_ODR_OD10 | GPIO_ODR_OD8);
     GPIOB->ODR |= (GPIO_ODR_OD8);
     GPIOD->ODR |= (GPIO_ODR_OD2);
 
-    // 2. ENCENDER LOS NECESARIOS (Poner en 0)
+    // 2. ENCENDER LOS PINES NECESARIOS (SE SABE QUE PÓR SER DE ANODO COMUN SE ENCIENDEN CON UN 0 LOGICO)
     switch(numero) {
-        case 0: // A, B, C, D, E, F
+        case 0: // A, B, C, D, E, F  SEGUN DATASHEED
             GPIOC->ODR &= ~(GPIO_ODR_OD9 | GPIO_ODR_OD11 | GPIO_ODR_OD12 | GPIO_ODR_OD10 | GPIO_ODR_OD8);
             GPIOB->ODR &= ~(GPIO_ODR_OD8);
             break;
@@ -335,7 +330,7 @@ void decodificar_7seg(uint8_t numero) {
             GPIOC->ODR &= ~(GPIO_ODR_OD9 | GPIO_ODR_OD11);
             GPIOB->ODR &= ~(GPIO_ODR_OD8);
             break;
-        case 8: // A, B, C, D, E, F, G (Todos)
+        case 8: // A, B, C, D, E, F, G
             GPIOC->ODR &= ~(GPIO_ODR_OD9 | GPIO_ODR_OD11 | GPIO_ODR_OD12 | GPIO_ODR_OD10 | GPIO_ODR_OD8);
             GPIOB->ODR &= ~(GPIO_ODR_OD8);
             GPIOD->ODR &= ~(GPIO_ODR_OD2);
@@ -348,16 +343,36 @@ void decodificar_7seg(uint8_t numero) {
     }
 }
 
+void timer2_display(void){		//TIMER REFRESCO DISPLAY
+	RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;//ACTIVACION DEL BUS TIMER2
+
+	TIM2->PSC = 16000 - 1; // Tick de 1 ms
+	TIM2->ARR = 7 - 1;     // INTERRUPCIONES CA 7 ms (REFRESCO DEL DISPLAY)
+
+	TIM2->CNT = 0;//REINICIO CONTADOR //EMPIEZA EN 0
+
+	TIM2->DIER |= TIM_DIER_UIE; // ACTIVACION DE INTERRUPCION
+
+	__NVIC_EnableIRQ(TIM2_IRQn); // MATRICULACION DEL TIMER 2 EN EL ARPE
+
+	TIM2->CR1 &= ~(TIM_CR1_DIR);//CONTEO ASCENDENTE //LIMPIEZA DEL REGISTRO
+	TIM2->CR1 &= ~(TIM_CR1_ARPE);
+	TIM2->CR1 |= TIM_CR1_ARPE;//ACTIVACION DE PRECARGA//POR SER UN SOLO BIT NO SE LIMPIA
+	TIM2->CR1 |= TIM_CR1_CEN; // ACTIVACION DE LA SEÑAL DE RELOJ PARA QUE SE PROPAGE
+}
+
+
+
 void TIM2_IRQHandler(void){
     if (TIM2->SR & TIM_SR_UIF){
-        TIM2->SR &= ~TIM_SR_UIF; // Limpiar bandera
+        TIM2->SR &= ~TIM_SR_UIF; // LIMPIEZA DE BANDERA
 
-        // 1. APAGAR TODOS LOS DÍGITOS (Transistores PNP a 1) para evitar "efecto fantasma"
+        // 1. APAGAR TODOS LOS DÍGITOS (Transistores PNP a 1) evitar efecto fantasmA
         GPIOC->ODR |= (GPIO_ODR_OD13 | GPIO_ODR_OD6);
         GPIOB->ODR |= (GPIO_ODR_OD9 | GPIO_ODR_OD7);
 
-        // 2. CONFIGURAR LOS SEGMENTOS para el dígito actual
-        decodificar_7seg(digitos[digito_actual]);
+        // 2. CONFIGURACION LOS SEGMENTOS PARA EL DIGITO ACTUAL
+        pintar_numero_7seg(digitos[digito_actual]);
 
         // 3. ENCENDER SOLO EL DÍGITO ACTUAL (Transistor PNP a 0)
         if (digito_actual == 0) GPIOC->ODR &= ~GPIO_ODR_OD13; // D1
@@ -368,26 +383,8 @@ void TIM2_IRQHandler(void){
         // 4. PASAR AL SIGUIENTE DÍGITO
         digito_actual++;
         if (digito_actual > 3) {
-            digito_actual = 0; // Reiniciar ciclo
+            digito_actual = 0; // REINICIO CICLO
         }
     }
 }
-void configurar_timer2_display(void){
-	// Activar bus del TIM2
-	RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
-
-	TIM2->PSC = 16000 - 1; // Tick de 1 ms
-	TIM2->ARR = 7 - 1;     // Interrupción cada 7 ms (Para refresco rápido)
-
-	TIM2->CNT = 0;
-
-	TIM2->DIER |= TIM_DIER_UIE; // Interrupción de actualización
-
-	__NVIC_EnableIRQ(TIM2_IRQn); // Matricular TIM2 en el NVIC
-
-	TIM2->CR1 &= ~(TIM_CR1_DIR);
-	TIM2->CR1 |= TIM_CR1_ARPE;
-	TIM2->CR1 |= TIM_CR1_CEN; // Arrancar Timer 2
-}
-
 
