@@ -21,88 +21,78 @@
  * User_email:jdgutierrezp@unal.edu.co
  * ****************************************************************************
  */
+//ESTRUCTURA COMPLETA
+//#define
+//includes
+//Deficnion de variables
+//cabecera de funciones
+//funcion main
+	//funciones
+	//while
+		//blicky condicional
+		//EXTI1 condicional (exti de decricimiento)
+		//EXTI0 conditional (exti de crecicminto)
+//functions
 
-
+//includes
 #include <stdint.h>
 #include <stm32f4xx.h>
 #include <stdio.h>
-
-
 
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
 #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
-
-
-
-
-/*varible definition*/
-
-uint8_t  flag = 0;
-volatile uint16_t counter_exti =0;
+//deficinion de variables
+uint8_t  flag = 0;  //INDICADOR PARA EL BLINKY
+volatile uint16_t counter_exti =0; //CONTADOR DE EVENTOS
 volatile uint8_t increment_counter =0;	//VOLATILE-->NO GUARDA EL CONTEXTO DE LA INTERUPCION
 volatile uint8_t decrement_counter =0;
-// nuevas variables
-volatile uint8_t digitos[4] = {0, 0, 0, 0}; // Guarda los 4 números a mostrar
-volatile uint8_t digito_actual = 0;         // Controla qué display está encendido (0 a 3)
+volatile uint8_t digitos[4] = {0, 0, 0, 0}; // LOS CUATRO NUMEROS QUE SE MUESTRAN
+volatile uint8_t digito_actual = 0;         // LOS CUATRO DIGITOS SEGUN DATASHEED D1, D2, D3, D4
 
-/*functions head*/
-
-void pines(void);
-void blinky(void);
-void exti_1(void);
-void exti_0(void);
-//nuevas funciones
+//cabecera de funciones
+void pines(void);		//FUNCION QUE CONFIGURA DE LOS PINES QUE SE VAN A UTILIZAR
+void blinky(void);		//FUNCION PARA EL FUNCIONAMIENTO DEL BLINKY
+void exti_1(void);		//FUNCION PARA FUNCIONAMINTO DE LA INTRUPCION 1
+void exti_0(void);		//FUNCION PARA LA INTERUPCION 0
 void separar_digitos(void);
 void configurar_timer2_display(void);
 void decodificar_7seg(uint8_t numero);
 
-
-
-
-
-/* funcion main ......*/
+//funcion main
 int main(void){
 	pines();
 	blinky();
 	exti_1();
 	exti_0();
-	//nuevas funciones
 	separar_digitos();
 	configurar_timer2_display();
 
-
-
-
-
-
-
-
 	while(1){
-		if(flag){
+		if(flag){		//CONDICIONAL PARA EL FUNCIONAMINTO DEL BLINKY
 			flag = 0;
 			GPIOH->ODR ^= GPIO_ODR_OD1;
 
 		}
-		if(increment_counter == 1){
+		if(increment_counter == 1){			//condicional del relaciones con el EXTI1
 		            if(counter_exti < 9999) {
 		                counter_exti++;
 		            } else {
-		                counter_exti = 0; // Vuelve a 0 si pasa de 9999
+		                counter_exti = 0; // VELVE A 0 SI SE PASA DE 9999
 		            }
 		            increment_counter = 0;
-		            separar_digitos(); // Actualizar arreglo
+		            separar_digitos(); // ACTUALIZA EL ARREGLO HECHO EN EL CONDICIONAL
 		        }
 
-		        if(decrement_counter == 1){
+		        if(decrement_counter == 1){ 	//condicional del relaciones con el EXTI0
 		            if(counter_exti > 0) {
 		                counter_exti--;
 		            } else {
-		                counter_exti = 9999; // Vuelve al tope si baja de 0
+		                counter_exti = 9999; // VUELVE A 9999 SI SE BAJA POR DEBAJO DE 0
 		            }
 		            decrement_counter = 0;
-		            separar_digitos(); // Actualizar arreglo
+		            separar_digitos(); // ACTUALIZA EL ARREGLO HECHO EN EL CONDICIONAL
 		        }
 	}
 	return 0;
@@ -110,10 +100,11 @@ int main(void){
 }
 
 void pines(void){
-	// PRENDEMOS LOS RELOJES NECESARIOS
 
-	RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOBEN);// ESTAN EN EL MISMO BUS
-	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
+	// PRENDEMOS LOS RELOJES NECESARIOS
+	// GPIOB
+	RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOBEN);// ESTAN EN EL MISMO BUS --LIMPIEZA DEL REGISTRO
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;	//ACTIVACION DE LA SEÑAL DE RELOJCON LA CONFIGURACION
 
 	RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOCEN);//GPIOC
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
@@ -176,19 +167,19 @@ void pines(void){
 	//PIN B (PB0)
 
 	GPIOB->MODER &= ~(GPIO_MODER_MODE0);
-	GPIOB->PUPDR &= ~(GPIO_PUPDR_PUPD0);
+	GPIOB->PUPDR &= ~(GPIO_PUPDR_PUPD0);// MODO NO PULL-UP NO PULL-DOWN
 
 
 	//PIN C (PC1)
 	GPIOC->MODER &= ~(GPIO_MODER_MODE1); // Modo entrada
-	GPIOC->PUPDR &= ~(GPIO_PUPDR_PUPD1); // Limpiar
+	GPIOC->PUPDR &= ~(GPIO_PUPDR_PUPD1); // MODO NO PULL-UP NO PULL-DOWN
 
 }
 
 void blinky(void){
 	// 1. CONFIGURACIÓN DEL PIN PH1 (Se mantiene igual)
-	RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOHEN);
-	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOHEN;
+	RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOHEN);//LIMPIEZA DEL REGISTRO
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOHEN;	//ACTIVACION DE SEÑAL DE RELOJ
 
 	GPIOH->MODER &= ~(GPIO_MODER_MODE1);
 	GPIOH->MODER |= (GPIO_MODER_MODE1_0);
@@ -222,7 +213,7 @@ void blinky(void){
 	TIM3->CR1 |= TIM_CR1_ARPE;
 	TIM3->CR1 |= TIM_CR1_CEN; // Arrancar el Timer 3
 }
-
+//ISR PARA EL BLINKY
 void TIM3_IRQHandler(void){
 	//VERIFICACION QUE SE GENERA LA INTERUPCIOM
 	if (TIM3->SR & TIM_SR_UIF){
@@ -257,20 +248,20 @@ void exti_0(void){
 void EXTI0_IRQHandler(void){		// SE INDICA QUE SE VA A SER Y EN EL MAIN SE HACE
 	if(EXTI->PR && EXTI_PR_PR0){ 	//VERIFICACION
 		EXTI->PR |= EXTI_PR_PR0;	//LIMPIEZA DE INTERRPCION
-		increment_counter=1;		//VA A SER EVALUADA EN EL MAIN
+		decrement_counter=1;		//VA A SER EVALUADA EN EL MAIN
 
 	}
 }
-// EXTI1
+// EXTI1 //EXTI DE DECRIMENTO
 
 void exti_1(void){
 	RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;//ACTIVACION DE SEÑAL DE RELOJ DEL BUS DODE YACE EL SYSCFG
 
 	SYSCFG->EXTICR[0] &= ~(SYSCFG_EXTICR1_EXTI1); //[0] PARA UTILIZAR EL PC0. EQUIVALENCIA PC0 ESTA EN CR1
-	SYSCFG->EXTICR[0] |= (SYSCFG_EXTICR1_EXTI1_PC);//SE ESCRIBE 1 EN EL PC0
+	SYSCFG->EXTICR[0] |= (SYSCFG_EXTICR1_EXTI1_PC);//SE ESCRIBE 1 EN EL 5 DEL REGISTRO PARA PC1--EL VALOR 0X0020 REFIERE A HEX-- 10 PARA PC EN EXTI1
 
 	EXTI->RTSR |= EXTI_RTSR_TR1;//CONFIGURACION DE FLANCO BAJADA--ESCRITURA DE 1
-	EXTI->FTSR &= ~(EXTI_FTSR_TR1);
+
 
 	__NVIC_EnableIRQ(EXTI1_IRQn);//REGISTRO LA INTERRPCION EN EL NVIC
 
@@ -289,7 +280,7 @@ void exti_1(void){
 void EXTI1_IRQHandler(void){		// SE INDICA QUE SE VA A SER Y EN EL MAIN SE HACE
 	if(EXTI->PR && EXTI_PR_PR1){ 	//VERIFICACION
 		EXTI->PR |= EXTI_PR_PR1;	//LIMPIEZA DE INTERRPCION RELACIONADA CON EL EXTI
-		decrement_counter=1;		//VA A SER EVALUADA EN EL MAIN
+		increment_counter=1;		//VA A SER EVALUADA EN EL MAIN
 
 	}
 }
